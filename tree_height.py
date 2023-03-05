@@ -1,33 +1,55 @@
-# python3
-
 import sys
 import threading
-import numpy
+import numpy as np
+ 
+def compute_tree_height(n, prnts):
+    chldrn = {i: [] for i in range(n)}
+    root = [] 
 
+    for i, parent in enumerate(prnts):
+        if parent == -1:
+            root.append(i)
+        else: 
+            chldrn[parent].append(i)
+ 
+            
+    def find_max_depth(node, d):
+        if not chldrn[node]:
+            return d 
+        else:
+            max_D = 0 
+            for child in chldrn[node]:
+                child_D = find_max_depth(child, d+1) 
+                max_D = max(max_D, child_D)
+            return max_D 
+ 
+    max_H =  0 
+    for r in root:
+        treeheight = find_max_depth(r, 0)
+        max_H = max(max_H, treeheight) 
 
-def compute_height(n, parents):
-    # Write this function
-    max_height = 0
-    # Your code here
-    return max_height
+    return max_H  + 1
 
+def main(): 
+    burts = input()
+ 
+    if 'I' in burts:
+        n = int(input()) 
+        prnts = list(map(int, input().split()))
+        print(compute_tree_height(n, prnts))
 
-def main():
-    # implement input form keyboard and from files
-    
-    # let user input file name to use, don't allow file names with letter a
-    # account for github input inprecision
-    
-    # input number of elements
-    # input values in one variable, separate with space, split these values in an array
-    # call the function and output it's result
-    pass
+    elif 'F' in burts: 
+        fails = input()
 
-# In Python, the default limit on recursion depth is rather low,
-# so raise it here for this problem. Note that to take advantage
-# of bigger stack, we have to launch the computation in a new thread.
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**27)   # new thread will get stack of such size
+        if 'a' in fails:
+            return 
+  
+        path = "test/"+ fails
+        with open(path, 'r') as v: 
+            n = int(v.readline())
+            prnts = list(map(int, v.readline().split()))
+            print(compute_tree_height(n, prnts)) 
+
+sys.setrecursionlimit(10**7) 
+threading.stack_size(2**27)
 threading.Thread(target=main).start()
-main()
-# print(numpy.array([1,2,3]))
