@@ -23,10 +23,10 @@ def compute_height(num_nodes, parents):
 
 
 def main():
-    file_name = input("Enter file name: ").strip()
+    file_name = input().strip()
 
     while 'a' in file_name or 'A' in file_name:
-        file_name = input("Invalid file name. Enter again: ").strip()
+        file_name = input().strip()
 
     try:
         with open(f"./{file_name}") as file:
@@ -39,7 +39,7 @@ def main():
             file.write(str(result))
 
     except FileNotFoundError:
-        print("File not found.")
+        pass
 
 
 sys.setrecursionlimit(10**7)
