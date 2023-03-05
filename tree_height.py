@@ -1,55 +1,53 @@
 import sys
 import threading
-import numpy
+import numpy as np
 
-def compute_height(n, parents):
-    children = {i: [] for i in range(n)}
-    roots = []
+def compute_tree_height(n, prnts):
+    chldrn = {i: [] for i in range(n)}
+    root = []
 
-    for i, parent in enumerate(parents):
+    for i, parent in enumerate(prnts):
         if parent == -1:
-            roots.append(i)
+            root.append(i)
         else:
-            children[parent].append(i)
+            chldrn[parent].append(i)
 
-    def find_max_depth(node, depth):
-        if not children[node]:
-            return depth
+    def find_max_depth(node, d):
+        if not chldrn[node]:
+            return d
         else:
-            max_depth = 0
-            for child in children[node]:
-                child_depth = find_max_depth(child, depth+1)
-                max_depth = max(max_depth, child_depth)
-            return max_depth
+            max_D = 0
+            for child in chldrn[node]:
+                child_D = find_max_depth(child, d+1)
+                max_D = max(max_D, child_D)
+            return max_D
 
-    max_height = 0
-    for root in roots:
-        height = find_max_depth(root, 0)
-        max_height = max(max_height, height)
+    max_H = 0
+    for r in root:
+        treeheight = find_max_depth(r, 0)
+        max_H = max(max_H, treeheight)
 
-    return max_height + 1
-
+    return max_H + 1
 
 def main():
-    letter = input()
+    burts = input()
 
-    if 'I' in letter:
+    if 'I' in burts:
         n = int(input())
-        parents = list(map(int, input().split()))
-        print(compute_height(n, parents))
+        prnts = list(map(int, input().split()))
+        print(compute_tree_height(n, prnts))
 
-    elif 'F' in letter:
-        file_name = input()
+    elif 'F' in burts:
+        fails = input()
 
-        if 'a' in file_name:
+        if 'a' in fails:
             return
 
-        file_path = "test/" + file_name
-        with open(file_path, 'r') as f:
-            n = int(f.readline())
-            parents = list(map(int, f.readline().split()))
-            print(compute_height(n, parents))
-
+        path = "test/" + fails
+        with open(path, 'r') as v:
+            n = int(v.readline())
+            prnts = list(map(int, v.readline().split()))
+            print(compute_tree_height(n, prnts))
 
 sys.setrecursionlimit(10**7) 
 threading.stack_size(2**27)
